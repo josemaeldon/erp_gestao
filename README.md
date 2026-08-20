@@ -1,27 +1,45 @@
 # Núcleo Eclesial
 
-Repositório de planejamento e implementação incremental de um ERP eclesial multi-instituição.
+Sistema full-stack local para gestão paroquial, com frontend React/Vite, API Node/Express e PostgreSQL executado via Docker.
 
-> **Estado atual:** primeira fatia executável do produto: shell desktop-first, dashboard e módulos navegáveis com estado local.
+> **Estado atual:** núcleo executável com autenticação, RBAC, escopo por organização, dashboard conectado ao banco, cadastro/pesquisa de fiéis, dízimos/ofertas integrados ao financeiro e auditoria transacional. Os módulos sacramentais, pastoral, patrimônio e demais fluxos estão catalogados na interface e na documentação para implementação incremental.
 
 ## Executar localmente
 
+Pré-requisitos: Node.js 20+ e Docker Desktop.
+
 ```bash
 npm install
-npm run dev
+docker compose up -d postgres
+npm run dev:all
 ```
 
 Abra `http://127.0.0.1:5173/`.
 
-Esta versão inclui dashboard financeiro/sacramental, navegação pelos módulos levantados, tela de Fiéis e Cadastros com pesquisa local e responsividade inicial. Autenticação, banco persistente, RBAC, auditoria, CRUDs e integrações financeiras ainda são a próxima camada de implementação.
+O login de demonstração local é `admin@nucleo.local` / `admin123`. A API fica em `http://localhost:4000` e o Vite encaminha `/api` para ela. O banco expõe a porta `5433` no host.
+
+Para desligar o banco sem remover os dados:
+
+```bash
+docker compose stop postgres
+```
+
+Verificações rápidas:
+
+```bash
+npm run build
+curl http://localhost:4000/api/health
+```
+
+O schema inicial está em `server/migrations/001_init.sql`; ele cria a organização de demonstração, permissões administrativas, conta de caixa e dados sintéticos. Não são usados dados ou credenciais do sistema Eclesial externo.
 
 ## Documentos
 
 - [Catálogo funcional](docs/CATALOGO_FUNCIONAL.md)
-- [Arquitetura](ARCHITECTURE.md)
-- [Modelo de dados](DATABASE.md)
-- [Permissões](PERMISSIONS.md)
-- [Integrações entre módulos](MODULES.md)
+- [Arquitetura](docs/ARCHITECTURE.md)
+- [Modelo de dados](docs/DATABASE.md)
+- [Permissões](docs/PERMISSIONS.md)
+- [Integrações entre módulos](docs/MODULES.md)
 - [Checklist central](docs/CHECKLIST.md)
 - [Protocolo de descoberta](docs/DISCOVERY.md)
 

@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nucleo-eclesial-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nucleo_eclesial
+      POSTGRES_USER: nucleo
+      POSTGRES_PASSWORD: nucleo_local
+    ports:
+      - "5433:5432"
+    volumes:
+      - nucleo_pgdata:/var/lib/postgresql/data
+      - ./server/migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nucleo -d nucleo_eclesial"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  nucleo_pgdata:
