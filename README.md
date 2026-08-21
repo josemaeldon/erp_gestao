@@ -2,7 +2,7 @@
 
 Sistema full-stack local para gestão paroquial, com frontend React/Vite, API Node/Express e PostgreSQL executado via Docker.
 
-> **Estado atual:** núcleo executável com autenticação, RBAC, escopo por organização, dashboard conectado ao banco, cadastro/pesquisa de fiéis, dízimos/ofertas integrados ao financeiro e auditoria transacional. Os módulos sacramentais, pastoral, patrimônio e demais fluxos estão catalogados na interface e na documentação para implementação incremental.
+> **Estado atual:** sistema executável com autenticação, RBAC, escopo por organização, auditoria e 460 funções-folha reconciliadas. Todas as 20 áreas permitem adicionar, pesquisar, editar e excluir/inativar registros conforme as regras de auditoria; cada função do catálogo também possui CRUD próprio. A suíte percorre todas as 460 rotas e testa 34 fluxos integrados no PostgreSQL local.
 
 ## Executar localmente
 
@@ -28,6 +28,7 @@ Verificações rápidas:
 
 ```bash
 npm run build
+npm test
 curl http://localhost:4000/api/health
 ```
 

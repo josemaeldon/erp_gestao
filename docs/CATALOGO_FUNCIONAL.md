@@ -1,8 +1,8 @@
-# Catálogo funcional planejado
+# Catálogo funcional de requisitos ampliados
 
-**Proveniência:** requisitos fornecidos pelo solicitante.  
-**Estado global:** `NÃO INSPECIONADO`.  
-**Importante:** esta árvore organiza a futura descoberta e o produto próprio; não afirma que nomes ou agrupamentos existam no sistema Theòs.
+**Proveniência:** requisitos iniciais fornecidos pelo solicitante.
+**Estado global:** `SUPLEMENTAR AO INVENTÁRIO AUTENTICADO`.
+**Importante:** a fonte executável reconciliada é `REFERENCE_INVENTORY.md`, com 460 funções em 19 áreas. Itens ampliados abaixo que não apareceram na conta inspecionada — como RH, chancelaria e PDV — documentam possíveis evoluções, não funções indevidamente atribuídas ao produto de referência.
 
 ## Shell autenticado
 
@@ -79,9 +79,9 @@
     - Organizações e hierarquia; usuários; perfis; permissões; sessões; política de senha; 2FA.
     - Auditoria; anexos; notificações; períodos; parâmetros; LGPD; backup e restauração.
 
-## Ficha padrão de formulário
+## Ficha padrão de formulário adotada
 
-Todo formulário será catalogado com os seguintes elementos, mesmo quando ausentes: título, breadcrumb, abas, agrupamentos, campos obrigatórios, pesquisa por lupa, autocomplete, máscara, calendário, moeda, anexos, observações, validação cliente/servidor, mensagem de erro, confirmação de saída, loading, sucesso, auditoria e permissões por operação.
+Formulários são avaliados por: título, abas, agrupamentos, campos obrigatórios, pesquisa, tipos de controle, anexos, observações, validação cliente/servidor, erro, loading, sucesso, auditoria e permissão.
 
 ## Modais transversais a verificar
 

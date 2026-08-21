@@ -1,45 +1,37 @@
-# Modelo de dados
+# Modelo de dados implementado
 
-## Núcleo e tenancy
+O schema executável está nas migrações `server/migrations/001_*.sql` a `028_*.sql`. Todas as tabelas operacionais possuem `organization_id`; as APIs sempre aplicam o organismo do JWT.
 
-- `organizations(id, parent_id, type, legal_name, display_name, timezone, status)` modela diocese, paróquia, comunidade, capela e CEB.
-- `cost_centers(id, organization_id, parent_id, code, name, status)`.
-- `users`, `sessions`, `roles`, `permissions`, `role_permissions`, `user_roles`, `access_grants`.
-- `work_periods`, `notification_preferences`, `saved_filters`, `grid_preferences`.
+## Núcleo e pessoas
 
-## Pessoas e pastoral
+- `organizations`, `organization_settings`, `users`, `roles`, `permissions`, `role_permissions`, `user_roles` e `audit_logs` sustentam tenancy, RBAC e auditoria.
+- `people` é a identidade central. `parish_communities`, `parish_households`, `parish_household_members`, `person_relationships`, `pastoral_entities`, `pastoral_memberships`, `volunteer_terms`, `service_attendances`, `person_transfers`, `person_field_definitions`, `person_field_values`, `lgpd_consents` e `lgpd_requests` mantêm a vida paroquial e a governança de dados.
 
-- `people` é a identidade civil central; `faithful_profiles` adiciona estado eclesial sem duplicar pessoa.
-- `addresses`, `contacts`, `families`, `family_members`, `person_relationships`.
-- `pastoral_entities(type)`, `pastoral_memberships`, `mandates`.
-- CPF normalizado é único por tenant quando informado; relações familiares impedem autorreferência.
+## Contribuições, campanhas e financeiro
 
-## Contribuições e financeiro
+- `tithe_members`, `tithe_payments`, `tithe_payment_allocations`, `offering_types`, `offerings` e `contribution_documents` controlam competências, recibos e documentos.
+- `fundraising_campaigns`, `campaign_pledges`, `campaign_donations`, `campaign_expenses` e `campaign_batches` controlam metas, benfeitores, lotes e recebimentos.
+- `financial_accounts`, `financial_categories`, `cost_centers`, `financial_transactions`, `financial_obligations`, `financial_settlements`, `financial_period_closings`, `financial_vouchers`, `financial_checks`, `financial_transfers`, `financial_receipts`, `financial_master_data`, `budget_structures` e `budget_plans` compõem o financeiro.
+- PIX, cartões e boletos usam `payment_provider_configs`, `pix_charges`, `card_receivables`, `boleto_agreements`, `bank_slips`, `bank_file_batches` e `bank_return_occurrences`.
+- Fiscal e obrigações usam `suppliers`, `fiscal_documents`, `tax_withholdings` e `compliance_submissions`.
 
-- `tithe_members`, `tithe_payments`, `offering_types`, `offerings`, `campaigns`, `campaign_payments`.
-- `ledger_accounts`, `cash_accounts`, `banks`, `bank_accounts`, `financial_transactions`, `financial_entries`.
-- `suppliers` referencia `people`; `invoices`, `invoice_items`, `accounts_payable`, `accounts_receivable`, `settlements`, `advances`, `checks`, `transfers`, `allocation_rules`, `allocations`, `budgets`, `financial_closings`.
-- Cada transação balanceia débitos/créditos; valores são `numeric(19,4)` e positivos, com direção definida pela partida.
-- `source_type/source_id` possuem constraint de unicidade para impedir integração duplicada.
+## Sacramentos e catequese
 
-## Sacramentos e formação
+- `sacramental_applications`, `sacramental_application_requirements`, `sacramental_requirements`, `sacramental_witnesses`, `sacramental_books`, `sacramental_records`, `sacramental_amendments`, `sacramental_transfers` e `sacramental_fees` implementam pedidos, exigências, registros e livros.
+- `marriage_cases`, `marriage_interviews` e `marriage_banns` mantêm a instrução matrimonial.
+- `catechesis_stages`, `catechesis_groups`, `catechesis_enrollments`, `catechesis_sessions`, `catechesis_attendance`, `catechesis_transfers`, `catechesis_certificate_requests`, `catechesis_book_entries` e `catechesis_fees` implementam o ciclo catequético. A matrícula concluída referencia o pedido sacramental exportado, impedindo duplicação.
 
-- `sacramental_books`, `sacramental_records`, com especializações `baptisms`, `eucharists`, `confirmations`, `marriages`.
-- `marriage_processes`, `marriage_parties`, `canonical_assessments`, `banns`, `marriage_documents`, `interviews`.
-- `catechists`, `catechumens`, `catechesis_stages`, `catechesis_groups`, `enrollments`, `attendance`, `transfers`.
-- Chave única de livro: instituição + tipo + livro + folha + verso + número.
+## Agenda, materiais, patrimônio, social e cemitério
 
-## Secretaria, patrimônio e módulos opcionais
+- Agenda e cursos: `pastoral_events`, `pastoral_courses`, `course_enrollments`, `course_advisors`, `course_sessions`, `course_checkins`, `course_installments`, `course_certificates`, `mass_intentions`, `mass_intention_types`, `pastoral_receipts`, `agenda_contacts` e `tomb_book_entries`.
+- Almoxarifado: `inventory_products`, `inventory_categories`, `storage_locations`, `inventory_movements`, `inventory_departments`, `inventory_requisitions`, `inventory_requisition_items`, `inventory_purchase_orders`, `inventory_purchase_order_items`, `inventory_returns`, `inventory_writeoffs` e `inventory_request_templates`.
+- Patrimônio: `assets`, `asset_categories`, `asset_locations`, `asset_events`, `asset_accessories`, `asset_legal_documents`, `asset_insurance_policies`, `vehicle_drivers`, `asset_reservations`, `property_leases` e `property_lease_installments`.
+- Social: `social_households`, membros, atendimentos, programas, benefícios, doadores, produtos, estoque, kits, montagens, agendas, distribuições e questionários nas tabelas `social_*`.
+- Cemitério: `cemetery_sectors`, `cemetery_graves`, `deceased_people`, `burials`, `grave_concessions`, `cemetery_service_catalog` e `cemetery_service_orders`.
 
-- `agenda_events`, `courses`, `course_participants`, `masses`, `mass_intentions`, `notices`, `tomb_book_entries`.
-- `assets`, `asset_depreciations`, `properties`, `rental_contracts`, `inventory_products`, `inventory_movements`.
-- `cemeteries`, `cemetery_units`, `burials`, `concessions`.
-- `employees`, `payroll_periods`, `payroll_entries`, `clergy`, `stipends`, `benefits`.
-- `social_cases`, `social_assistances`, `donation_inventory`.
-- `events`, `event_products`, `pos_registers`, `pos_sessions`, `pos_sales`, `pos_sale_items`, `pos_payments`.
+## Plataforma e cobertura integral
 
-## Plataforma
-
-- `attachments` armazena metadados e object key, nunca o binário.
-- `document_templates`, `document_issues`, `notifications`, `webhook_events`, `outbox_events`, `audit_logs`.
-- Soft delete usa `deleted_at/deleted_by`; fatos financeiros e auditoria são imutáveis e corrigidos por estorno.
+- `document_templates`, `document_emissions`, `attachments` e `report_runs` oferecem PDF/CSV, validação pública e integridade SHA-256.
+- `portal_*`, `integration_connections`, `notification_*`, `webhook_*` e `integration_delivery_attempts` sustentam ParóquiaNet e conectividade.
+- `accounting_*` mantém escrituração e demonstrações; `fraternal_sharing_*` mantém a Partilha Fraterna.
+- `operational_records` dá armazenamento isolado às rotinas documentais/consultivas do catálogo de 460 funções que não exigem uma tabela de domínio adicional.

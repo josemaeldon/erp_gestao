@@ -2,7 +2,7 @@
 
 ## Status da inspeção
 
-A inspeção autenticada solicitada **não foi concluída** neste ambiente. Em 20/08/2026, uma tentativa HTTP a `https://eclesial.theos.com.br/` foi bloqueada pelo proxy de saída antes de alcançar o servidor (`CONNECT tunnel failed`, HTTP 403). A ferramenta de navegação disponível também não disponibilizou uma sessão autenticável. Por isso, nenhum menu, campo ou comportamento abaixo deve ser atribuído ao produto de referência sem validação posterior.
+A inspeção autenticada foi concluída em 20/08/2026 por meio da sessão que o usuário já havia aberto no Chrome. A varredura foi estritamente de leitura e limitada à estrutura renderizada de menus e funções, sem copiar dados pessoais, código, banco ou ativos do sistema de referência. O resultado reconciliado contém 460 funções-folha em 19 áreas e está registrado em `REFERENCE_INVENTORY.md`.
 
 ## Regras de segurança e privacidade
 

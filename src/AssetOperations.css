@@ -1,0 +1,1 @@
+.asset-operation-actions{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin:14px 0}.asset-operation-actions>.finance-tabs{margin:0;overflow:auto}.asset-operation-actions+.table-panel{overflow:auto}@media(max-width:800px){.asset-operation-actions{align-items:stretch;flex-direction:column}}
